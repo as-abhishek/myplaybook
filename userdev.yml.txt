@@ -1,0 +1,38 @@
+---
+- hosts: Testenvironment
+  remote_user: ansible
+
+  tasks:
+  - name: Executing group creation for unix account
+    group:
+     name: "{{ item }}"
+     gid: 787657
+     state: present
+    with_items:
+      - loopgrp
+
+  - name: just creation for testing
+    user:
+     name: "{{ item.name }}"
+     shell: /bin/bash
+     createhome: yes
+     home: /var/tmp/muser
+     comment: this is test user for ansible
+     group: "{{ item.group }}"
+     groups: admin,ntpadmin
+     password: $6$mysecretsalt$b9h2NIsKn9VqwVPt2U2650IuZBZwYsK/CfkGJ6AzH1PHcNkN1jT2vh25hkQESVdoKlMZrTXui5ciYF8.VbJor.
+    with_items:
+     - { name: 'admin0', group: 'loopgrp' }
+     - { name: 'admin1', group: 'loopgrp' }
+     - { name: 'admin2', group: 'loopgrp' }
+     - { name: 'admin3', group: 'loopgrp' }
+     - { name: 'admin4', group: 'loopgrp' }
+
+  - name: Force password change next login
+    command: "{{ item.command }}"
+    with_items:
+     - { command: 'chage -d 0 admin0' }
+     - { command: 'chage -d 0 admin1' }
+     - { command: 'chage -d 0 admin2' }
+     - { command: 'chage -d 0 admin3' }
+#     - { command: 'chage -d 0 admin4' }
