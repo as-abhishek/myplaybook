@@ -35,4 +35,4 @@
      - { command: 'chage -d 0 admin1' }
      - { command: 'chage -d 0 admin2' }
      - { command: 'chage -d 0 admin3' }
-#     - { command: 'chage -d 0 admin4' }
+     - { command: 'chage -d 0 admin4' }
